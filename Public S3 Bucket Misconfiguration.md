@@ -94,5 +94,5 @@ While my submission was valid and demonstrated a real vulnerability, HackerOne m
 
 ## Reflections
 
-Although this report was closed as a duplicate, it was a strong learning experience that deepened my understanding of AWS S3 security, API abuse, and responsible disclosure workflows. It remains a great portfolio example for real-world cloud misconfiguration testing.
+Although this report was closed as a duplicate, it was a strong learning experience that deepened my understanding of AWS S3 security, API abuse, and responsible disclosure workflows. 
 
